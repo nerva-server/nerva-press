@@ -13,7 +13,7 @@ void use(std::ostream &output_stream) {
 }
 
 
-bool isCode=false;
+bool isCode=false, isInline=false;
 
 void checkCode();
 
@@ -28,15 +28,21 @@ int proc() {
 			if(in->peek() == '%') {
 				isCode = true;
 				in->get();
-				*out << ")\";" << std::endl;
+				isInline = in->peek() == '-';
+				if(isInline) {
+					*out << ")\" << std::to_string(";
+				} else
+					*out << ")\";" << std::endl;
 			} else *out << '<';
 		} else if(isCode && in->peek() == '%') {
                         in->get();
                         if(in->peek() == '>') {
 				isCode = false;
                                 in->get();
-                                *out << std::endl <<
-					"res << R\"(";
+				if(isInline)
+					*out << ") << \"";
+				else
+	                                *out << std::endl << "res << R\"(";
                         } else *out << '%';
                 } else *out << (char)in->get();
 	}
