@@ -2,10 +2,12 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <vector>
 
 int main(int argc, char* argv[]) {
-        std::istream* in = nullptr;
         std::ostream* out = nullptr;
+
+	std::vector<std::istream*> inputs;
 
         for(int i=1; i < argc; i++) {
                 std::string arg = argv[i];
@@ -25,30 +27,31 @@ int main(int argc, char* argv[]) {
                                 std::cerr << "File path not given after '-o' option" << std::endl;
                                 return 1;
                         }
-                else {
+		else {
                         std::ifstream *fin = new std::ifstream(arg);
                         if(!fin->is_open()) {
                                 std::cerr << "Can't open the file: " << arg << std::endl;
                                 delete fin;
                                 return 1;
                         }
-                        in = fin;
+                        inputs.push_back(fin);
                 }
         }
 
-        if(in == nullptr)
-                in = &std::cin;
+        if(inputs.size() == 0)
+                inputs.push_back(&std::cin);
 
         if(out == nullptr)
                 out = &std::cout;
 
-        Temper::use(*in);
         Temper::use(*out);
 
-        Temper::proc();
+	*out << "Router NEVRA_PRESS_MAIN_ROUTER;" << std::endl;
+	for(std::istream *in: inputs) {
+	        Temper::use(*in);
+		Temper::proc();
+	}
 
-        if(in != &std::cin)
-                delete in;
         if(out != &std::cout)
                 delete out;
 };
