@@ -14,9 +14,9 @@ int main(int argc, char* argv[]) {
                 if(arg == "-o")
                         if(++i < argc) {
                                 arg = argv[i];
-                                if(arg = "-") {
+                                if(arg == "-")
 					out = &std::cout;
-				} else {
+				else {
                                         std::ofstream *fout = new std::ofstream(arg);
                                         if(!fout->is_open()) {
                                                 std::cerr << "Can't open the file: " << arg << std::endl;
