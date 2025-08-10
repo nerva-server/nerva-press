@@ -62,5 +62,9 @@ int main(int argc, char* argv[]) {
         if(out != &std::cout)
                 delete out;
 
+	for(std::istream *in: inputs)
+		if(in != &std::cin)
+	                delete in;
+
 	return 0;
 };
