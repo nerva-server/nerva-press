@@ -14,7 +14,9 @@ int main(int argc, char* argv[]) {
                 if(arg == "-o")
                         if(++i < argc) {
                                 arg = argv[i];
-                                if(arg != "-") {
+                                if(arg = "-") {
+					out = &std::cout;
+				} else {
                                         std::ofstream *fout = new std::ofstream(arg);
                                         if(!fout->is_open()) {
                                                 std::cerr << "Can't open the file: " << arg << std::endl;
@@ -28,21 +30,26 @@ int main(int argc, char* argv[]) {
                                 return 1;
                         }
 		else {
-                        std::ifstream *fin = new std::ifstream(arg);
-                        if(!fin->is_open()) {
-                                std::cerr << "Can't open the file: " << arg << std::endl;
-                                delete fin;
-                                return 1;
-                        }
+                        std::ifstream *fin;
+			if(arg == "-")
+				fin = new std::ifstream(arg);
+	                        if(!fin->is_open()) {
+                        	        std::cerr << "Can't open the file: " << arg << std::endl;
+                	                delete fin;
+        	                        return 1;
+	                        }
+			} else fin = &std::cin;
                         inputs.push_back(fin);
                 }
         }
 
-        if(inputs.size() == 0)
-                inputs.push_back(&std::cin);
+        if(inputs.size() == 0) {
+		std::cerr << "error: no input file specified!" << std::endl;
+		return 1;
+	}
 
         if(out == nullptr)
-                out = &std::cout;
+                out = new ofstream("o.press");
 
         Temper::use(*out);
 
@@ -54,4 +61,6 @@ int main(int argc, char* argv[]) {
 
         if(out != &std::cout)
                 delete out;
+
+	return 0;
 };
