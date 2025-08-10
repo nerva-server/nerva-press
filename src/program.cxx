@@ -30,16 +30,16 @@ int main(int argc, char* argv[]) {
                                 return 1;
                         }
 		else {
-                        std::ifstream *fin;
-			if(arg == "-")
-				fin = new std::ifstream(arg);
+			if(arg == "-") inputs.push_back(&std::cin);
+			else {
+				std::ifstream* fin = new std::ifstream(arg);
 	                        if(!fin->is_open()) {
                         	        std::cerr << "Can't open the file: " << arg << std::endl;
                 	                delete fin;
         	                        return 1;
 	                        }
-			} else fin = &std::cin;
-                        inputs.push_back(fin);
+	                        inputs.push_back(fin);
+			}
                 }
         }
 
@@ -49,7 +49,7 @@ int main(int argc, char* argv[]) {
 	}
 
         if(out == nullptr)
-                out = new ofstream("o.press");
+                out = new std::ofstream("o.press");
 
         Temper::use(*out);
 
