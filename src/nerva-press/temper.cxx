@@ -23,21 +23,21 @@ int proc() {
 
 	*out << "res << R\"(";
 	while(in->peek() != EOF) {
-		if(!isCode && in->peek() == '{') {
+		if(!isCode && in->peek() == '<') {
 			in->get();
-			if(in->peek() == '{') {
+			if(in->peek() == '%') {
 				isCode = true;
 				in->get();
 				*out << ")\";" << std::endl;
-			} else *out << '{';
-		} else if(isCode && in->peek() == '}') {
+			} else *out << '<';
+		} else if(isCode && in->peek() == '%') {
                         in->get();
-                        if(in->peek() == '}') {
+                        if(in->peek() == '>') {
 				isCode = false;
                                 in->get();
                                 *out << std::endl <<
 					"res << R\"(";
-                        } else *out << '}';
+                        } else *out << '%';
                 } else *out << (char)in->get();
 	}
 
