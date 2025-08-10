@@ -18,7 +18,8 @@ bool isCode=false;
 void checkCode();
 
 int proc() {
-	*out << "NEVRA_PRESS_MAIN_ROUTER.Get(\"/\", {}, [](const Http::Request &req, Http::Response &res, auto next) {";
+	*out << "NEVRA_PRESS_MAIN_ROUTER.Get(\"/\", {}, [](const Http::Request &req, Http::Response &res, auto next) {" <<
+		std::endl;
 
 	*out << "res << R\"(";
 	while(in->peek() != EOF) {
