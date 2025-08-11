@@ -40,7 +40,7 @@ int proc() {
 				isCode = false;
                                 in->get();
 				if(isInline)
-					*out << ") << \"";
+					*out << ") << R\"(";
 				else
 	                                *out << std::endl << "res << R\"(";
                         } else *out << '%';
