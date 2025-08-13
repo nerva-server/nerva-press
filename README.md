@@ -27,3 +27,15 @@ sv.Use(NEVRA_PRESS_MAIN_ROUTER);
 ...
 }
 ```
+
+## Specify NEVRA_PRESS_MAIN_ROUTER
+
+```C++
+...
+#define NEVRA_PRESS_MAIN_ROUTER myrouter
+#include "path/to/generated/header/file"
+
+sv.Use(myrouter);
+...
+
+```
